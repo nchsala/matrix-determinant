@@ -6,7 +6,7 @@ import (
 	"math/rand"
 )
 
-type matriz struct {
+type matrixStruct struct {
 	number int
 	values [][]int
 }
@@ -24,14 +24,14 @@ func main() {
 }
 
 func getDeterminant(m [][]int, n chan int) {
-	matrix := matriz{
+	matrix := matrixStruct{
 		number: 1,
 		values: m,
 	}
 	go calculateSubDeterminant(matrix, n)
 }
 
-func calculateSubDeterminant(m matriz, resolution chan int) {
+func calculateSubDeterminant(m matrixStruct, resolution chan int) {
 	if len(m.values) == 2 {
 		var tot int
 		tot = (m.values[0][0] * m.values[1][1])
@@ -40,7 +40,7 @@ func calculateSubDeterminant(m matriz, resolution chan int) {
 		resolution <- tot
 	} else {
 		var determinants []int
-		var subMatrix matriz
+		var subMatrix matrixStruct
 		v := m.values[0]
 		subDeterminant := make(chan int, len(v))
 		for i := range v {
